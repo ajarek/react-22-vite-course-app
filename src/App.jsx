@@ -3,6 +3,7 @@ import "./App.css"
 import { FullPageLoader } from "./components/FullPageLoader/FullPageLoader"
 import {Typography} from "./components/Typography/Typography"
 import {Button} from "./components/Button/Button"
+import {FullPageMassage} from "./components/FullPageMessage/FullPageMassage"
 export class App extends React.Component {
   state = {
     isLoading: false,
@@ -46,6 +47,7 @@ export class App extends React.Component {
         >
           Button
         </Button>
+        <FullPageMassage/>
       </div>
     )
   }
