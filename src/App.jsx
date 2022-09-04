@@ -3,10 +3,14 @@ import "./App.css"
 import { FullPageLoader } from "./components/FullPageLoader/FullPageLoader"
 import {Typography} from "./components/Typography/Typography"
 import {Button} from "./components/Button/Button"
-import {FullPageMassage} from "./components/FullPageMessage/FullPageMassage"
+import {FullPageMessage} from "./components/FullPageMessage/FullPageMessage"
 export class App extends React.Component {
   state = {
     isLoading: false,
+    hasError:false,
+    isInfoDisplayed: false,
+    infoMessage: 'Info message',
+    errorMessage:'Error message'
   }
   render() {
     return (
@@ -47,7 +51,25 @@ export class App extends React.Component {
         >
           Button
         </Button>
-        <FullPageMassage/>
+        {
+          this.state.isInfoDisplayed ?
+        <FullPageMessage
+        message={ this.state.infoMessage}
+        iconVariant={'info'}
+        onButtonClick={console.log}
+        />
+        :null
+  }
+   {
+          this.state.hasError ?
+            <FullPageMessage
+              message={this.state.errorMessage}
+              iconVariant={'error'}
+              onButtonClick={console.log}
+            />
+            :
+            null
+        }
       </div>
     )
   }
