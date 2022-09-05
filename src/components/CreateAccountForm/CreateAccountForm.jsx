@@ -58,15 +58,23 @@ export const CreateAccountForm = (props) => {
         variant={'contained'}
         color={'primary'}
         onClick={onClickCreateAccount}
-      >
-        CREATE ACCOUNT
+      > <Typography
+      variant={'button'}
+    >
+       CREATE ACCOUNT
+      </Typography>
+       
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
         onClick={onClickBackToLogin}
-      >
-        BACK TO LOGIN
+      > <Typography
+      variant={'button'}
+    >
+       BACK TO LOGIN
+      </Typography>
+       
       </Button>
     </div>
   )

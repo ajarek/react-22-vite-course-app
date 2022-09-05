@@ -12,7 +12,7 @@ export class App extends React.Component {
     isInfoDisplayed: false,
     infoMessage: "Info message",
     errorMessage: "Error message",
-    notLoginUserRoute: "LOGIN", //"CREATE-ACCOUNT" "LOGIN" "RECOVER-PASSWORD"
+    notLoginUserRoute: "RECOVER-PASSWORD", //"CREATE-ACCOUNT" "LOGIN" "RECOVER-PASSWORD"
     loginPassword: "",
     loginEmail: "",
     createAccountEmail: "",

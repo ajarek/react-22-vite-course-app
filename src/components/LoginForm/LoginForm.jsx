@@ -51,7 +51,11 @@ export const LoginForm = (props) => {
         color={'primary'}
         onClick={onClickLogin}
       >
+         <Typography
+        variant={'button'}
+      >
         LOGIN
+        </Typography>
       </Button>
       <Button
         className={classes.button}
@@ -59,14 +63,24 @@ export const LoginForm = (props) => {
         color={'secondary'}
         onClick={onClickCreateAccount}
       >
+         <Typography
+        variant={'button'}
+      >
         CREATE ACCOUNT
+        </Typography>
+        
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
         onClick={onClickForgotPassword}
       >
-        FORGOT PASSWORD
+         <Typography
+        variant={'button'}
+      >
+         FORGOT PASSWORD
+        </Typography>
+       
       </Button>
     </div>
   )

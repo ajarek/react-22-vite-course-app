@@ -38,14 +38,24 @@ export const RecoverPasswordForm = (props) => {
         color={'primary'}
         onClick={onClickRecover}
       >
+         <Typography
+        variant={'button'}
+      >
         RECOVER
+        </Typography>
+       
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
         onClick={onClickBackToLogin}
       >
-        ️BACK TO LOGIN
+         <Typography
+        variant={'button'}
+      >
+       BACK TO LOGIN
+        </Typography>
+        ️
       </Button>
     </div>
   )
