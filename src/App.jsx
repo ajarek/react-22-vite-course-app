@@ -1,5 +1,4 @@
 import React from "react"
-import "./App.css"
 import { FullPageLoader } from "./components/FullPageLoader/FullPageLoader"
 import {Typography} from "./components/Typography/Typography"
 import {Button} from "./components/Button/Button"
@@ -18,38 +17,53 @@ export class App extends React.Component {
         <h1>Kurs Javascript</h1>
         {this.state.isLoading ? <FullPageLoader /> : null}
         <Typography
-          className={'h1'}
+          variant={'h1'}
         >
           Header1
         </Typography>
         
         <Typography
-          className={'h3'}
+          variant={'h3'}
         >
           Header3
         </Typography>
         <Typography
-          className={'button'}
+          variant={'button'}
         >
           button
         </Typography>
         <br />
-        <Button
-        className={'root contained secondary'}
+        <Button       
+          variant={'contained'}
+          color={'primary'}
+        >
+           <Typography
+          variant={'button'}
         >
           Button
+        </Typography>
         </Button>
         <br />
         <Button
-        className={'root contained primary'}
+       variant={'contained'}
+       color={'secondary'}
+        >
+           <Typography
+          variant={'button'}
         >
           Button
+        </Typography>
         </Button>
         <br />
         <Button
-        className={'root text'}
+        variant={'text'}
+        
+        >
+         <Typography
+          variant={'button'}
         >
           Button
+        </Typography>
         </Button>
         {
           this.state.isInfoDisplayed ?

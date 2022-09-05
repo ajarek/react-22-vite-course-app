@@ -1,6 +1,7 @@
 import React from 'react'
 import {Spinner} from './Spinner'
-import './FullPageLoader.css'
+import classes from './styles.module.css'
+import FullPageLayout from '../../components/FullPageLayout/FullPageLayout'
 
 export const FullPageLoader = (props) => {
     const {
@@ -8,14 +9,14 @@ export const FullPageLoader = (props) => {
         ...otherProps
     }=props
     return(
-        <div
-        className={'loader'}
+        <FullPageLayout
+        
         {...otherProps}
         >
            <Spinner
-           className={'spinner'}
+           className={classes.spinner}
            />
-        </div>
+        </FullPageLayout>
     )
 }
 export default FullPageLoader

@@ -3,7 +3,8 @@ import ErrorIcon from "./ErrorIcon"
 import InfoIcon from "./InfoIcon"
 import { Typography } from "../Typography/Typography"
 import { Button } from "../Button/Button"
-import "./FullPageMessage.css"
+import classes from './styles.module.css'
+import {FullPageLayout} from '../../components/FullPageLayout/FullPageLayout'
 export const FullPageMessage = (props) => {
   const {
     className,
@@ -14,20 +15,23 @@ export const FullPageMessage = (props) => {
     ...otherProps
   } = props
   return (
-    <div className={"messageWrapper"}>
+    <FullPageLayout
+     {...otherProps}
+     >
       {iconVariant === "info" ? (
         <InfoIcon />
       ) : iconVariant === "error" ? (
         <ErrorIcon />
       ) : null}
-      <Typography className={"h3"}>{message}</Typography>
+      <Typography variant={"h3"}>{message}</Typography>
       <Button
-       className={"root contained primary"}
+       variant={'contained'}
+       color={'primary'}
        onClick={onButtonClick}
        >
-        <Typography className={"button"}>{buttonLabel}</Typography>
+        <Typography variant={"button"}>{buttonLabel}</Typography>
       </Button>
-    </div>
+    </FullPageLayout>
   )
 }
 

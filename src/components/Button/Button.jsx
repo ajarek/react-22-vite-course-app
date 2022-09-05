@@ -1,14 +1,15 @@
 import React from "react"
 import Typography from '../Typography/Typography'
-import  "./Button.css"
+import  classes from './styles.module.css'
 export const Button = (props) => {
-  const { className, children, ...otherProps } = props
- 
+  const {variant,color,className, children, ...otherProps } = props
+ const variantClass = classes[variant]
+  const colorClass = classes[color]
   return (
     
       <button
       {...otherProps}
-      className={className}
+      className={`${classes.root}${className ? ` ${className}` : ''}${variantClass ? ` ${variantClass}` : ''}${colorClass ? ` ${colorClass}` : ''}`}
       >
         <Typography
         className="button"
