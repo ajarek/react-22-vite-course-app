@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.header {
+  margin-bottom: 30px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.textField {
+  width: 220px;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 220px;
+  margin-bottom: 10px;
+}
+
