@@ -20,28 +20,52 @@ export class App extends React.Component {
     createAccountPassword: "",
     createAccountRepeatPassword: "",
     recoverPasswordEmail: "",
+    // user/auth state
+    isUserLoggedIn: false,
+    userDisplayName: '',
+    userEmail: '',
+    userAvatar: '',
   }
-  onClickLogin=async()=>{
+  onClickLogin=()=>{
     this.setState(() => ({ isLoading: true }))
-    try {
-      await signIn(this.state.loginEmail, this.state.loginPassword)
+    
+       signIn(this.state.loginEmail, this.state.loginPassword)
+       
       .then(data => {
-        console.log(data)
+        const newToken=data.idToken
+        const newRefreshToken=data.refreshToken
+        localStorage.setItem('ID_TOKEN_KEY', newToken)
+        localStorage.setItem('REFRESH_TOKEN_KEY', newRefreshToken)
+        this.setState({ userDisplayName:data.displayName})
+        this.setState({ userEmail:data.email})
+        this.setState({ userAvatar:data.profilePicture})
+        if(data.error)  {
+          this.setState(() => ({
+            hasError: true,
+            errorMessage: data.error.message
+          }))
+        }
       })
-    } catch (error) {
-      this.setState(() => ({
-        hasError: true,
-        errorMessage: error.data.error.message
-      }))
-    } finally {
+     
+     .finally(()=> {
       this.setState(() => ({ isLoading: false }))
       this.setState({loginEmail:''})
       this.setState({loginPassword:''})
-    }
+      this.setState({isUserLoggedIn:true})
+    })
   }
   render() {
     return (
       <div className="App">
+        {this.state.isUserLoggedIn?
+        <div
+        style={{zIndex:'1000000',position:'absolute',top:'0',left:'0'}}
+        >
+          <img src={this.state.userAvatar} alt="" />
+          <p>{this.state.userDisplayName}</p>
+        </div>:
+        null
+          }
         {this.state.notLoginUserRoute === "LOGIN" ? (
           <FullPageLayout>
             <LoginForm
@@ -97,14 +121,14 @@ export class App extends React.Component {
           <FullPageMessage
             message={this.state.infoMessage}
             iconVariant={"info"}
-            onButtonClick={console.log}
+            onButtonClick={() => this.setState({isInfoDisplayed:false})}
           />
         ) : null}
         {this.state.hasError ? (
           <FullPageMessage
             message={this.state.errorMessage}
             iconVariant={"error"}
-            onButtonClick={console.log}
+            onButtonClick={() => this.setState({hasError:false})}
           />
         ) : null}
       </div>

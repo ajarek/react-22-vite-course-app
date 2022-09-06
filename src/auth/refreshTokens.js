@@ -1,34 +1,15 @@
-import { makeRequest } from './makeRequest'
-import { logOut } from './logOut'
-import { getRefreshToken, setIdToken, setRefreshToken } from './token'
-import { FIREBASE_APP_KEY } from './const'
-
-const REFRESH_TOKEN_URL = 'https://securetoken.googleapis.com/v1/token?key=' + FIREBASE_APP_KEY
+import { fetchMethod } from "./fetchMethod";
+const REFRESH_TOKEN_URL = 'https://identitytoolkit.googleapis.com/v1/token?key=AIzaSyCMKT92lcL-zfLubUcdoraW87_xm8-JDP4'
 
 export const refreshTokens = () => {
-  const refreshToken = getRefreshToken()
-
-  if (!refreshToken) return Promise.reject(new Error('No refresh token found'))
-
-  return makeRequest(
-    REFRESH_TOKEN_URL,
-    {
-      method: 'POST',
-      body: JSON.stringify({
+    const refreshToken = localStorage.getItem('refreshToken')
+    if (refreshToken) {
+    return fetchMethod('POST', REFRESH_TOKEN_URL, {
         grant_type: 'refresh_token',
-        refresh_token: refreshToken
-      })
-    }
-  ).then(data => {
-    setIdToken(data.id_token)
-    setRefreshToken(data.refresh_token)
-
-    return data
-  })
-    .catch((error) => {
-      return logOut()
-        .finally(() => {
-          throw error
-        })
+        refresh_token: refreshToken,
     })
+}
+else {
+    return
+}
 }

@@ -1,33 +1,11 @@
-import { makeRequest } from './makeRequest'
-import { getIdToken } from './token'
-import { refreshTokens } from './refreshTokens'
+import {fetchMethod} from './fetchMethod';
 
-export const makeAuthorizedRequest = (url, options) => {
-  const token = getIdToken()
+export const makeAuthorizedRequest = (method, url) => {
 
-  if (!token) return Promise.reject(new Error('No token found'))
+    const token = localStorage.getItem('token');
+    const containsQuestionMark = url.indexOf('?') !== -1
+    const urlWithToken = `${url}${containsQuestionMark ? '&' : '?'}auth=${token}`
+    return fetchMethod(method,urlWithToken)
+    
 
-  const containsQuestionMark = url.indexOf('?') !== -1
-
-  const urlWithToken = `${url}${containsQuestionMark ? '&' : '?'}auth=${token}`
-
-  return makeRequest(urlWithToken, options)
-    .catch((error) => {
-      const { code } = error
-      if (code === 401) {
-        return refreshTokens()
-          .then(() => {
-            const refreshedToken = getIdToken()
-            const urlWithRefreshedToken = `${url}${containsQuestionMark ? '&' : '?'}auth=${refreshedToken}`
-
-            return makeRequest(urlWithRefreshedToken, options)
-          })
-          .catch(() => {
-            throw error
-          })
-      }
-      throw error
-    })
 }
-
-export default makeAuthorizedRequest

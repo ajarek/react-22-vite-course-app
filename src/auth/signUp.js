@@ -1,26 +1,12 @@
-import { makeRequest } from './makeRequest'
-import { setIdToken, setRefreshToken } from './token'
-import { FIREBASE_APP_KEY } from './const'
-
-const SIGN_UP_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + FIREBASE_APP_KEY
+import {fetchMethod} from "./fetchMethod";
+const SIGN_UP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${import.meta.env.VITE_KEY_ID}`;
 
 export const signUp = (email, password) => {
-  return makeRequest(
-    SIGN_UP_URL,
-    {
-      method: 'POST',
-      body: JSON.stringify({
+    return fetchMethod('POST', SIGN_UP_URL, {
         email,
         password,
         returnSecureToken: true
-      })
-    }
-  ).then(data => {
-    setIdToken(data.idToken)
-    setRefreshToken(data.refreshToken)
-
-    return data
-  })
+    })
+    
+    
 }
-
-export default signUp

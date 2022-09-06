@@ -1,19 +1,11 @@
-import { makeRequest } from './makeRequest'
-import { FIREBASE_APP_KEY } from './const'
-
-const PASSWORD_RESET_EMAIL_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + FIREBASE_APP_KEY
+import {fetchMethod} from "./fetchMethod";
+const PASSWORD_RESET_EMAIL_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCMKT92lcL-zfLubUcdoraW87_xm8-JDP4';
 
 export const sendPasswordResetEmail = (email) => {
-  return makeRequest(
-    PASSWORD_RESET_EMAIL_URL,
-    {
-      method: 'POST',
-      body: JSON.stringify({
+    return fetchMethod('POST', PASSWORD_RESET_EMAIL_URL, {
         requestType: 'PASSWORD_RESET',
-        email
-      })
-    }
-  )
+        email,
+       
+    });
+    
 }
-
-export default sendPasswordResetEmail
