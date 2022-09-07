@@ -6,6 +6,9 @@ import { LoginForm } from "./components/LoginForm/LoginForm"
 import { CreateAccountForm } from "./components/CreateAccountForm/CreateAccountForm"
 import { RecoverPasswordForm } from "./components/RecoverPasswordForm/RecoverPasswordForm"
 import { signIn } from "./auth/signIn"
+import { signUp } from "./auth/signUp"
+import {  sendPasswordResetEmail } from "./auth/sendPasswordResetEmail"
+
 export class App extends React.Component {
   state = {
     isLoading: false,
@@ -25,6 +28,9 @@ export class App extends React.Component {
     userDisplayName: '',
     userEmail: '',
     userAvatar: '',
+    // recover password page
+    recoverPasswordEmail: '',
+    recoverPasswordSubmitted: false,
   }
   onClickLogin=()=>{
     this.setState(() => ({ isLoading: true }))
@@ -36,13 +42,14 @@ export class App extends React.Component {
         const newRefreshToken=data.refreshToken
         localStorage.setItem('ID_TOKEN_KEY', newToken)
         localStorage.setItem('REFRESH_TOKEN_KEY', newRefreshToken)
-        this.setState({ userDisplayName:data.displayName})
+        this.setState({isUserLoggedIn:true})
         this.setState({ userEmail:data.email})
-        this.setState({ userAvatar:data.profilePicture})
+        
         if(data.error)  {
           this.setState(() => ({
             hasError: true,
-            errorMessage: data.error.message
+            errorMessage: data.error.message,
+            isUserLoggedIn:false
           }))
         }
       })
@@ -51,18 +58,73 @@ export class App extends React.Component {
       this.setState(() => ({ isLoading: false }))
       this.setState({loginEmail:''})
       this.setState({loginPassword:''})
-      this.setState({isUserLoggedIn:true})
+      
     })
   }
+  onClickCreateAccount =()=>{
+    this.setState(() => ({ isLoading: true }))
+    if(this.state.createAccountPassword===this.state.createAccountRepeatPassword)
+    {
+    signUp(this.state.createAccountEmail, this.state.createAccountPassword)
+    .then(data => {
+      this.setState({notLoginUserRoute:"LOGIN"})
+      if(data.error)  {
+        this.setState(() => ({
+          hasError: true,
+          errorMessage: data.error.message,
+          notLoginUserRoute:"CREATE-ACCOUNT"
+        }))
+      }
+    })
+      .finally(()=>{
+        this.setState(() => ({ isLoading: false }))
+       
+        
+      })
+    }
+    
+    else{
+      alert('passwords are different')
+      this.setState(() => ({ isLoading: false }))
+    }
+    
+  }
+
+  onClickRecover =  () => {
+    this.setState(() => ({ recoverPasswordSubmitted: true }))
+     this.setState(() => ({ isLoading: true }))
+    sendPasswordResetEmail(this.state.recoverPasswordEmail)
+    .then(data => {
+      this.setState(() => ({
+        isInfoDisplayed: true,
+        infoMessage: 'Check your inbox!'
+      }))
+      if(data.error) {
+        this.setState(() => ({
+          isInfoDisplayed: false,
+          hasError: true,
+          errorMessage: data.error.message,
+          notLoginUserRoute:"RECOVER-PASSWORD"
+        }))
+      }
+    })
+        .finally(()=>{
+          this.setState(() => ({
+             isLoading: false ,
+             notLoginUserRoute:"LOGIN"
+            }))
+        })
+  
+}
+    
   render() {
     return (
       <div className="App">
         {this.state.isUserLoggedIn?
         <div
-        style={{zIndex:'1000000',position:'absolute',top:'0',left:'0'}}
+        style={{zIndex:'1000000',position:'absolute',top:'0',left:'10%'}}
         >
-          <img src={this.state.userAvatar} alt="" />
-          <p>{this.state.userDisplayName}</p>
+          <p>Welcome {this.state.userEmail}</p>
         </div>:
         null
           }
@@ -82,6 +144,7 @@ export class App extends React.Component {
               onClickForgotPassword={() => this.setState({notLoginUserRoute:"RECOVER-PASSWORD"})}
             />
           </FullPageLayout>
+
         ) : this.state.notLoginUserRoute === "CREATE-ACCOUNT" ? (
           <FullPageLayout>
             <CreateAccountForm
@@ -99,7 +162,7 @@ export class App extends React.Component {
                   createAccountRepeatPassword: e.target.value,
                 }))
               }
-              onClickCreateAccount={() => console.log("onClickCreateAccount")}
+              onClickCreateAccount={ this.onClickCreateAccount }
               onClickBackToLogin={() => this.setState({notLoginUserRoute:"LOGIN"})}
             />
           </FullPageLayout>
@@ -110,7 +173,7 @@ export class App extends React.Component {
               onChangeEmail={(e) =>
                 this.setState(() => ({ recoverPasswordEmail: e.target.value }))
               }
-              onClickRecover={() => console.log("onClickRecover")}
+              onClickRecover={this.onClickRecover}
               onClickBackToLogin={() => this.setState({notLoginUserRoute:"LOGIN"})}
             />
           </FullPageLayout>
