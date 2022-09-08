@@ -1,13 +1,12 @@
-import * as React from "react"
+import * as React from 'react'
 
-export const Spinner = (props) => (
+export const Spinner = props => (
   <svg
     width={40}
     height={40}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+    {...props}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"

@@ -1,21 +1,15 @@
 import React from 'react'
 
-
 import classes from './styles.module.css'
 
-export const FullPageLayout = (props) => {
-  const {
-    className,
-    children,
-    ...otherProps
-  } = props
+export const FullPageLayout = props => {
+  const { className, children, ...otherProps } = props
 
   return (
     <div
       className={`${classes.root}${className ? ` ${className}` : ''}`}
-      {...otherProps}
-    >
-    {children}
+      {...otherProps}>
+      {children}
     </div>
   )
 }

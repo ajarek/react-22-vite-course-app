@@ -1,5 +1,5 @@
 .root {
-    position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
@@ -9,5 +9,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white; 
+  background-color: white;
 }

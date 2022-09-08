@@ -5,7 +5,7 @@ import TextField from '../../components/TextField/TextField'
 import Button from '../../components/Button/Button'
 import classes from './styles.module.css'
 
-export const LoginForm = (props) => {
+export const LoginForm = props => {
   const {
     className,
     email,
@@ -21,15 +21,9 @@ export const LoginForm = (props) => {
   return (
     <div
       className={`${classes.root}${className ? ` ${className}` : ''}`}
-      {...otherProps}
-    >
-<Logo
-        className={classes.logo}
-      />
-      <Typography
-        className={classes.header}
-        variant={'h1'}
-      >
+      {...otherProps}>
+      <Logo className={classes.logo} />
+      <Typography className={classes.header} variant={'h1'}>
         Log in 👋
       </Typography>
       <TextField
@@ -49,38 +43,21 @@ export const LoginForm = (props) => {
         className={classes.button}
         variant={'contained'}
         color={'primary'}
-        onClick={onClickLogin}
-      >
-         <Typography
-        variant={'button'}
-      >
-        LOGIN
-        </Typography>
+        onClick={onClickLogin}>
+        <Typography variant={'button'}>LOGIN</Typography>
       </Button>
       <Button
         className={classes.button}
         variant={'contained'}
         color={'secondary'}
-        onClick={onClickCreateAccount}
-      >
-         <Typography
-        variant={'button'}
-      >
-        CREATE ACCOUNT
-        </Typography>
-        
+        onClick={onClickCreateAccount}>
+        <Typography variant={'button'}>CREATE ACCOUNT</Typography>
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
-        onClick={onClickForgotPassword}
-      >
-         <Typography
-        variant={'button'}
-      >
-         FORGOT PASSWORD
-        </Typography>
-       
+        onClick={onClickForgotPassword}>
+        <Typography variant={'button'}>FORGOT PASSWORD</Typography>
       </Button>
     </div>
   )

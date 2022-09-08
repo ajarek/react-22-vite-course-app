@@ -5,7 +5,7 @@ import TextField from '../../components/TextField/TextField'
 import Button from '../../components/Button/Button'
 import classes from './styles.module.css'
 
-export const CreateAccountForm = (props) => {
+export const CreateAccountForm = props => {
   const {
     className,
     email,
@@ -22,15 +22,9 @@ export const CreateAccountForm = (props) => {
   return (
     <div
       className={`${classes.root}${className ? ` ${className}` : ''}`}
-      {...otherProps}
-    >
- <Logo
-        className={classes.logo}
-      />
-      <Typography
-        className={classes.header}
-        variant={'h1'}
-      >
+      {...otherProps}>
+      <Logo className={classes.logo} />
+      <Typography className={classes.header} variant={'h1'}>
         Create new account
       </Typography>
       <TextField
@@ -57,24 +51,16 @@ export const CreateAccountForm = (props) => {
         className={classes.button}
         variant={'contained'}
         color={'primary'}
-        onClick={onClickCreateAccount}
-      > <Typography
-      variant={'button'}
-    >
-       CREATE ACCOUNT
-      </Typography>
-       
+        onClick={onClickCreateAccount}>
+        {' '}
+        <Typography variant={'button'}>CREATE ACCOUNT</Typography>
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
-        onClick={onClickBackToLogin}
-      > <Typography
-      variant={'button'}
-    >
-       BACK TO LOGIN
-      </Typography>
-       
+        onClick={onClickBackToLogin}>
+        {' '}
+        <Typography variant={'button'}>BACK TO LOGIN</Typography>
       </Button>
     </div>
   )

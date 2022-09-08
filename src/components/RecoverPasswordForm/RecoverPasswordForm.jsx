@@ -5,7 +5,7 @@ import TextField from '../../components/TextField/TextField'
 import Button from '../../components/Button/Button'
 import classes from './styles.module.css'
 
-export const RecoverPasswordForm = (props) => {
+export const RecoverPasswordForm = props => {
   const {
     className,
     email,
@@ -18,12 +18,8 @@ export const RecoverPasswordForm = (props) => {
   return (
     <div
       className={`${classes.root}${className ? ` ${className}` : ''}`}
-      {...otherProps}
-    >
- <Typography
-        className={classes.header}
-        variant={'h1'}
-      >
+      {...otherProps}>
+      <Typography className={classes.header} variant={'h1'}>
         Recover password
       </Typography>
       <TextField
@@ -36,26 +32,14 @@ export const RecoverPasswordForm = (props) => {
         className={classes.button}
         variant={'contained'}
         color={'primary'}
-        onClick={onClickRecover}
-      >
-         <Typography
-        variant={'button'}
-      >
-        RECOVER
-        </Typography>
-       
+        onClick={onClickRecover}>
+        <Typography variant={'button'}>RECOVER</Typography>
       </Button>
       <Button
         className={classes.button}
         variant={'text'}
-        onClick={onClickBackToLogin}
-      >
-         <Typography
-        variant={'button'}
-      >
-       BACK TO LOGIN
-        </Typography>
-        ️
+        onClick={onClickBackToLogin}>
+        <Typography variant={'button'}>BACK TO LOGIN</Typography>️
       </Button>
     </div>
   )
