@@ -31,10 +31,12 @@ export class App extends React.Component {
     // recover password page
     recoverPasswordEmail: '',
     recoverPasswordSubmitted: false,
+    //validate
+    validateEmail: false,
+    validateInfo:'',
   }
   onClickLogin = () => {
     this.setState(() => ({ isLoading: true }))
-
     signIn(this.state.loginEmail, this.state.loginPassword)
       .then(data => {
         const newToken = data.idToken
@@ -43,7 +45,6 @@ export class App extends React.Component {
         localStorage.setItem('REFRESH_TOKEN_KEY', newRefreshToken)
         this.setState({ isUserLoggedIn: true })
         this.setState({ userEmail: data.email })
-
         if (data.error) {
           this.setState(() => ({
             hasError: true,
@@ -52,13 +53,13 @@ export class App extends React.Component {
           }))
         }
       })
-
       .finally(() => {
         this.setState(() => ({ isLoading: false }))
         this.setState({ loginEmail: '' })
         this.setState({ loginPassword: '' })
-      })
+      }) 
   }
+  
   onClickCreateAccount = () => {
     this.setState(() => ({ isLoading: true }))
     if (
@@ -130,9 +131,20 @@ export class App extends React.Component {
             <LoginForm
               email={this.state.loginEmail}
               password={this.state.loginPassword}
-              onChangeEmail={e =>
+              onChangeEmail={e =>{
+                
                 this.setState(() => ({ loginEmail: e.target.value }))
+                setTimeout(() => {
+                  this.state.loginEmail.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)?this.setState({
+                  validateEmail: true,
+                  validateInfo:'email ok',
+                }):this.setState({
+                  validateEmail: false,
+                  validateInfo:'email false',
+                })
+              },0)
               }
+            }
               onChangePassword={e =>
                 this.setState(() => ({ loginPassword: e.target.value }))
               }
