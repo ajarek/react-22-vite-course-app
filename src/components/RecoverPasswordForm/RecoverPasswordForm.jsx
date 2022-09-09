@@ -12,6 +12,8 @@ export const RecoverPasswordForm = props => {
     onChangeEmail,
     onClickRecover,
     onClickBackToLogin,
+    validateEmailForgot,
+    validateInfoForgot,
     ...otherProps
   } = props
 
@@ -27,6 +29,8 @@ export const RecoverPasswordForm = props => {
         placeholder={'E-mail'}
         value={email}
         onChange={onChangeEmail}
+        validateInput={validateEmailForgot}
+        validateInfo={validateInfoForgot}
       />
       <Button
         className={classes.button}

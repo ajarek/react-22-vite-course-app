@@ -32,8 +32,19 @@ export class App extends React.Component {
     recoverPasswordEmail: '',
     recoverPasswordSubmitted: false,
     //validate
+    validatePassword: false,
+    validateInfoPassword: '',
     validateEmail: false,
-    validateInfo:'',
+    validateInfo: '',
+    validatePasswordCreate: false,
+    validateInfoPasswordCreate: '',
+    validateEmailCreate: false,
+    validateInfoCreate: '',
+    validatePasswordCreateRepeat: false,
+    validateInfoPasswordCreateRepeat: '',
+    validatePasswordDifferent: '',
+    validateEmailForgot: false,
+    validateInfoForgot: '',
   }
   onClickLogin = () => {
     this.setState(() => ({ isLoading: true }))
@@ -57,15 +68,16 @@ export class App extends React.Component {
         this.setState(() => ({ isLoading: false }))
         this.setState({ loginEmail: '' })
         this.setState({ loginPassword: '' })
-      }) 
+      })
   }
-  
+
   onClickCreateAccount = () => {
     this.setState(() => ({ isLoading: true }))
     if (
       this.state.createAccountPassword ===
       this.state.createAccountRepeatPassword
     ) {
+      this.setState(() => ({ validatePasswordDifferent: '' }))
       signUp(this.state.createAccountEmail, this.state.createAccountPassword)
         .then(data => {
           this.setState({ notLoginUserRoute: 'LOGIN' })
@@ -81,7 +93,9 @@ export class App extends React.Component {
           this.setState(() => ({ isLoading: false }))
         })
     } else {
-      alert('passwords are different')
+      this.setState(() => ({
+        validatePasswordDifferent: 'passwords are different',
+      }))
       this.setState(() => ({ isLoading: false }))
     }
   }
@@ -129,25 +143,43 @@ export class App extends React.Component {
         {this.state.notLoginUserRoute === 'LOGIN' ? (
           <FullPageLayout>
             <LoginForm
+              validateInfo={this.state.validateInfo}
+              validateEmail={this.state.validateEmail}
+              validateInfoPassword={this.state.validateInfoPassword}
+              validatePassword={this.state.validatePassword}
               email={this.state.loginEmail}
               password={this.state.loginPassword}
-              onChangeEmail={e =>{
-                
+              onChangeEmail={e => {
                 this.setState(() => ({ loginEmail: e.target.value }))
                 setTimeout(() => {
-                  this.state.loginEmail.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)?this.setState({
-                  validateEmail: true,
-                  validateInfo:'email ok',
-                }):this.setState({
-                  validateEmail: false,
-                  validateInfo:'email false',
-                })
-              },0)
-              }
-            }
-              onChangePassword={e =>
+                  this.state.loginEmail.match(
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+                  )
+                    ? this.setState({
+                        validateEmail: true,
+                        validateInfo: '',
+                      })
+                    : this.setState({
+                        validateEmail: false,
+                        validateInfo: 'invalid e-mail',
+                      })
+                }, 0)
+              }}
+              onChangePassword={e => {
                 this.setState(() => ({ loginPassword: e.target.value }))
-              }
+                setTimeout(() => {
+                  this.state.loginPassword.match(/(?=.{6,})/)
+                    ? this.setState({
+                        validatePassword: true,
+                        validateInfoPassword: '',
+                      })
+                    : this.setState({
+                        validatePassword: false,
+                        validateInfoPassword:
+                          'password must be 6 characters or longer',
+                      })
+                }, 0)
+              }}
               onClickLogin={this.onClickLogin}
               onClickCreateAccount={() =>
                 this.setState({ notLoginUserRoute: 'CREATE-ACCOUNT' })
@@ -160,20 +192,68 @@ export class App extends React.Component {
         ) : this.state.notLoginUserRoute === 'CREATE-ACCOUNT' ? (
           <FullPageLayout>
             <CreateAccountForm
+              validateInfoCreate={this.state.validateInfoCreate}
+              validateEmailCreate={this.state.validateEmailCreate}
+              validateInfoPasswordCreate={this.state.validateInfoPasswordCreate}
+              validatePasswordCreate={this.state.validatePasswordCreate}
+              validatePasswordCreateRepeat={
+                this.state.validatePasswordCreateRepeat
+              }
+              validateInfoPasswordCreateRepeat={
+                this.state.validateInfoPasswordCreateRepeat
+              }
               email={this.state.createAccountEmail}
               password={this.state.createAccountPassword}
               repeatPassword={this.state.createAccountRepeatPassword}
-              onChangeEmail={e =>
+              onChangeEmail={e => {
                 this.setState(() => ({ createAccountEmail: e.target.value }))
-              }
-              onChangePassword={e =>
+                setTimeout(() => {
+                  this.state.createAccountEmail.match(
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+                  )
+                    ? this.setState({
+                        validateEmailCreate: true,
+                        validateInfoCreate: '',
+                      })
+                    : this.setState({
+                        validateEmailCreate: false,
+                        validateInfoCreate: 'invalid e-mail',
+                      })
+                }, 0)
+              }}
+              onChangePassword={e => {
                 this.setState(() => ({ createAccountPassword: e.target.value }))
-              }
-              onChangeRepeatPassword={e =>
+                setTimeout(() => {
+                  this.state.createAccountPassword.match(/(?=.{6,})/)
+                    ? this.setState({
+                        validatePasswordCreate: true,
+                        validateInfoPasswordCreate: '',
+                      })
+                    : this.setState({
+                        validatePasswordCreate: false,
+                        validateInfoPasswordCreate:
+                          'password must be 6 characters or longer',
+                      })
+                }, 0)
+              }}
+              onChangeRepeatPassword={e => {
                 this.setState(() => ({
                   createAccountRepeatPassword: e.target.value,
                 }))
-              }
+                setTimeout(() => {
+                  this.state.createAccountRepeatPassword.match(/(?=.{6,})/)
+                    ? this.setState({
+                        validatePasswordCreateRepeat: true,
+                        validateInfoPasswordCreateRepeat: '',
+                      })
+                    : this.setState({
+                        validatePasswordCreateRepeat: false,
+                        validateInfoPasswordCreateRepeat:
+                          'password must be 6 characters or longer',
+                      })
+                }, 0)
+              }}
+              validatePasswordDifferent={this.state.validatePasswordDifferent}
               onClickCreateAccount={this.onClickCreateAccount}
               onClickBackToLogin={() =>
                 this.setState({ notLoginUserRoute: 'LOGIN' })
@@ -184,9 +264,25 @@ export class App extends React.Component {
           <FullPageLayout>
             <RecoverPasswordForm
               email={this.state.recoverPasswordEmail}
-              onChangeEmail={e =>
+              validateEmailForgot={this.state.validateEmailForgot}
+              validateInfoForgot={this.state.validateInfoForgot}
+              onChangeEmail={e => {
                 this.setState(() => ({ recoverPasswordEmail: e.target.value }))
-              }
+                this.setState(() => ({ recoverPasswordEmail: e.target.value }))
+                setTimeout(() => {
+                  this.state.recoverPasswordEmail.match(
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+                  )
+                    ? this.setState({
+                        validateEmailForgot: true,
+                        validateInfoForgot: '',
+                      })
+                    : this.setState({
+                        validateEmailForgot: false,
+                        validateInfoForgot: 'invalid e-mail',
+                      })
+                }, 0)
+              }}
               onClickRecover={this.onClickRecover}
               onClickBackToLogin={() =>
                 this.setState({ notLoginUserRoute: 'LOGIN' })

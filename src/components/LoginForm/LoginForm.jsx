@@ -15,6 +15,10 @@ export const LoginForm = props => {
     onClickLogin,
     onClickCreateAccount,
     onClickForgotPassword,
+    validateInfo,
+    validateEmail,
+    validatePassword,
+    validateInfoPassword,
     ...otherProps
   } = props
 
@@ -31,6 +35,8 @@ export const LoginForm = props => {
         placeholder={'E-mail'}
         value={email}
         onChange={onChangeEmail}
+        validateInput={validateEmail}
+        validateInfo={validateInfo}
       />
       <TextField
         className={classes.textField}
@@ -38,6 +44,8 @@ export const LoginForm = props => {
         type={'password'}
         value={password}
         onChange={onChangePassword}
+        validateInput={validatePassword}
+        validateInfo={validateInfoPassword}
       />
       <Button
         className={classes.button}

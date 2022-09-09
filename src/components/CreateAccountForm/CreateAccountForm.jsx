@@ -16,6 +16,13 @@ export const CreateAccountForm = props => {
     onChangeRepeatPassword,
     onClickCreateAccount,
     onClickBackToLogin,
+    validateInfoCreate,
+    validateEmailCreate,
+    validatePasswordCreate,
+    validateInfoPasswordCreate,
+    validatePasswordCreateRepeat,
+    validateInfoPasswordCreateRepeat,
+    validatePasswordDifferent,
     ...otherProps
   } = props
 
@@ -32,6 +39,8 @@ export const CreateAccountForm = props => {
         placeholder={'E-mail'}
         value={email}
         onChange={onChangeEmail}
+        validateInput={validateEmailCreate}
+        validateInfo={validateInfoCreate}
       />
       <TextField
         className={classes.textField}
@@ -39,6 +48,8 @@ export const CreateAccountForm = props => {
         type={'password'}
         value={password}
         onChange={onChangePassword}
+        validateInput={validatePasswordCreate}
+        validateInfo={validateInfoPasswordCreate}
       />
       <TextField
         className={classes.textField}
@@ -46,7 +57,11 @@ export const CreateAccountForm = props => {
         type={'password'}
         value={repeatPassword}
         onChange={onChangeRepeatPassword}
+        validateInput={validatePasswordCreateRepeat}
+        validateInfo={validateInfoPasswordCreateRepeat}
       />
+      <p
+      className={classes.info}>{validatePasswordDifferent}</p>
       <Button
         className={classes.button}
         variant={'contained'}
