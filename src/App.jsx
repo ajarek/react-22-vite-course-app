@@ -8,6 +8,8 @@ import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPas
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
+import {AppBar} from './components/AppBar/AppBar'
+import {Avatar} from './components/Avatar/Avatar'
 
 export class App extends React.Component {
   state = {
@@ -131,13 +133,29 @@ export class App extends React.Component {
       <div className="App">
         {this.state.isUserLoggedIn ? (
           <div
-            style={{
-              zIndex: '1000000',
+           style={{
+              zIndex: '100000000',
               position: 'absolute',
               top: '0',
-              left: '10%',
-            }}>
-            <p>Welcome {this.state.userEmail}</p>
+              left: '0',
+              width:'100%',
+              height:'100vh',
+              backgroundColor:'red'
+            }}
+          >
+          <AppBar>
+            <div className='wrapper-user'>
+              <div className='wrapper-name-email'>
+             <p className='wrapper-name'>{this.state.userDisplayName||'--'}</p>
+            <p className='wrapper-email'>{this.state.userEmail}</p>
+            </div>
+            <div className='wrapper-avatar'>
+              <Avatar
+              src={ this.state.userAvatar}
+              />
+              </div>
+            </div>
+          </AppBar>
           </div>
         ) : null}
         {this.state.notLoginUserRoute === 'LOGIN' ? (
