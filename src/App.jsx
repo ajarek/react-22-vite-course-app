@@ -8,8 +8,7 @@ import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPas
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
-import {AppBar} from './components/AppBar/AppBar'
-import {Avatar} from './components/Avatar/Avatar'
+import {BoardCourses} from './components/BoardCourses/BoardCourses'
 
 export class App extends React.Component {
   state = {
@@ -30,6 +29,8 @@ export class App extends React.Component {
     userDisplayName: '',
     userEmail: '',
     userAvatar: '',
+    contentList: '',
+    statusContentList:false,
     // recover password page
     recoverPasswordEmail: '',
     recoverPasswordSubmitted: false,
@@ -127,36 +128,25 @@ export class App extends React.Component {
         }))
       })
   }
+  toggleList=(e)=>{
+    e.stopPropagation()
+   this.state.statusContentList? this.setState({contentList:`<h1>lol</h1>`}):this.setState({contentList:''})
+   this.setState({statusContentList:!this.state.statusContentList})
+  }
 
   render() {
     return (
       <div className="App">
         {this.state.isUserLoggedIn ? (
-          <div
-           style={{
-              zIndex: '100000000',
-              position: 'absolute',
-              top: '0',
-              left: '0',
-              width:'100%',
-              height:'100vh',
-              backgroundColor:'red'
-            }}
-          >
-          <AppBar>
-            <div className='wrapper-user'>
-              <div className='wrapper-name-email'>
-             <p className='wrapper-name'>{this.state.userDisplayName||'--'}</p>
-            <p className='wrapper-email'>{this.state.userEmail}</p>
-            </div>
-            <div className='wrapper-avatar'>
-              <Avatar
-              src={ this.state.userAvatar}
-              />
-              </div>
-            </div>
-          </AppBar>
-          </div>
+          
+          <BoardCourses
+          src={ this.state.userAvatar}
+          email={this.state.userEmail}
+          nameUser={this.state.userDisplayName||'--'}
+          contentList={this.state.contentList}
+          onClick={this.toggleList}
+          />
+        
         ) : null}
         {this.state.notLoginUserRoute === 'LOGIN' ? (
           <FullPageLayout>

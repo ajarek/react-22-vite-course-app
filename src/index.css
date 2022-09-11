@@ -18,45 +18,6 @@ body {
   padding: 2rem;
   text-align: center;
 }
-.wrapper-user{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-}
-.wrapper-name-email{
-  display: flex;
-  flex-direction: column;
-  justify-content:space-evenly ;
-  align-items:flex-start ;
-  padding: 0 1rem;
-}
-.wrapper-name{
-font-family: Roboto;
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0.15000000596046448px;
-text-align: right;
 
-}
-.wrapper-email{
-font-family: Roboto;
-font-size: 12px;
-font-weight: 400;
-line-height: 20px;
-letter-spacing: 0.4000000059604645px;
-text-align: right;
-}
-.wrapper-avatar{
-  background-color: gray;
-  width: 40px;
-  height: 40px;
-  border-radius:50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
 
   

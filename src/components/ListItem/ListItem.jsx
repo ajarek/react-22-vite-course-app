@@ -1,0 +1,33 @@
+import React from 'react'
+
+import classes from './styles.module.css'
+import LogOutIcon from './LogOutIcon'
+import ProfileIcon from './ProfileIcon'
+import Typography from '../../components/Typography/Typography'
+export const ListItem = (props) => {
+  const {
+    className,
+    ...otherProps
+  } = props
+
+  return (
+<ul
+ className={`${classes.root}${className ? ` ${className}` : ''}`}
+ {...otherProps}
+ >  
+    <li
+     className={classes.list}
+    >
+    <ProfileIcon/>
+    <Typography variant={'button'}>Profile</Typography>
+    </li>
+    <li
+     className={classes.list}
+    >
+    <LogOutIcon/>
+    <Typography variant={'button'}>Log out</Typography>
+    </li>
+    </ul>
+  )
+}
+export default ListItem
