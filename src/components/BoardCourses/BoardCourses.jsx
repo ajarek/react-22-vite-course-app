@@ -5,7 +5,7 @@ import { ListItem } from '../../components/ListItem/ListItem'
 import classes from './styles.module.css'
 
 export const BoardCourses = props => {
-  const { className, src, email, nameUser,contentList,onClick, ...otherProps } = props
+  const { className, src, email, nameUser,contentList,onClick,onClickBackToLogin, ...otherProps } = props
 
   return (
     <div
@@ -34,7 +34,9 @@ export const BoardCourses = props => {
           <div
             className={classes.listContainer}
           >
-            <ListItem/>
+            <ListItem
+            onClickBackToLogin={onClickBackToLogin}
+            />
           </div>
           :
           null

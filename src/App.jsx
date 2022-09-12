@@ -1,4 +1,5 @@
 import React from 'react'
+import jwt_decode from "jwt-decode";
 import { FullPageLoader } from './components/FullPageLoader/FullPageLoader'
 import { FullPageMessage } from './components/FullPageMessage/FullPageMessage'
 import { FullPageLayout } from './components/FullPageLayout/FullPageLayout'
@@ -7,6 +8,7 @@ import { CreateAccountForm } from './components/CreateAccountForm/CreateAccountF
 import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPasswordForm'
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
+import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
 import {BoardCourses} from './components/BoardCourses/BoardCourses'
 
@@ -49,6 +51,33 @@ export class App extends React.Component {
     validateEmailForgot: false,
     validateInfoForgot: '',
   }
+
+ componentDidMount () {
+  
+  if (checkIfUserIsLoggedIn()) {
+    this.setState(() => ({ isLoading: true }))
+    checkIfUserIsLoggedIn().then((res) => {
+      if (res.error) {
+        console.log(res.error.message);
+      } else {
+        
+       this.setState(() => ({ isUserLoggedIn: true }))
+       
+       const token= localStorage.getItem('ID_TOKEN_KEY')
+       const user = jwt_decode(token)
+       this.setState({ userEmail: user.email })
+      }
+  })
+  .finally(() => {
+    this.setState(() => ({ isLoading: false }))
+  })
+   }else {
+     this.setState(() => ({ isUserLoggedIn: false }))
+    }
+
+    }
+  
+
   onClickLogin = () => {
     this.setState(() => ({ isLoading: true }))
     signIn(this.state.loginEmail, this.state.loginPassword)
@@ -134,6 +163,17 @@ export class App extends React.Component {
    this.setState({statusContentList:!this.state.statusContentList})
   }
 
+  onClickLogOut =  () => {
+    localStorage.removeItem('REFRESH_TOKEN_KEY')
+    localStorage.removeItem('ID_TOKEN_KEY')
+    this.setState(() => ({
+      isUserLoggedIn: false,
+      userDisplayName: '',
+      userEmail: '',
+      userAvatar: '',
+      statusContentList:false,
+    }))
+  }
   render() {
     return (
       <div className="App">
@@ -145,6 +185,7 @@ export class App extends React.Component {
           nameUser={this.state.userDisplayName||'--'}
           contentList={this.state.contentList}
           onClick={this.toggleList}
+          onClickBackToLogin={this. onClickLogOut }
           />
         
         ) : null}

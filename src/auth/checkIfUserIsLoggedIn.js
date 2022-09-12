@@ -6,8 +6,9 @@ export const checkIfUserIsLoggedIn = () => {
             if (res.error) {
                 return res.error.message;
             }
-            localStorage.setItem('token',res.id_token);
-            localStorage.setItem('refreshToken',res.refresh_token);
+            localStorage.setItem('ID_TOKEN_KEY',res.id_token);
+            localStorage.setItem('REFRESH_TOKEN_KEY',res.refresh_token);
+           
             return res;
         })
     }
