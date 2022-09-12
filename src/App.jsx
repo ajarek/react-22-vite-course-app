@@ -77,7 +77,6 @@ export class App extends React.Component {
 
     }
   
-
   onClickLogin = () => {
     this.setState(() => ({ isLoading: true }))
     signIn(this.state.loginEmail, this.state.loginPassword)
