@@ -1,5 +1,5 @@
 import React from 'react'
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode'
 import { FullPageLoader } from './components/FullPageLoader/FullPageLoader'
 import { FullPageMessage } from './components/FullPageMessage/FullPageMessage'
 import { FullPageLayout } from './components/FullPageLayout/FullPageLayout'
@@ -10,7 +10,7 @@ import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
 import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
-import {BoardCourses} from './components/BoardCourses/BoardCourses'
+import { BoardCourses } from './components/BoardCourses/BoardCourses'
 
 export class App extends React.Component {
   state = {
@@ -32,7 +32,7 @@ export class App extends React.Component {
     userEmail: '',
     userAvatar: '',
     contentList: '',
-    statusContentList:false,
+    statusContentList: false,
     // recover password page
     recoverPasswordEmail: '',
     recoverPasswordSubmitted: false,
@@ -52,31 +52,30 @@ export class App extends React.Component {
     validateInfoForgot: '',
   }
 
- componentDidMount () {
-  
-  if (checkIfUserIsLoggedIn()) {
-    this.setState(() => ({ isLoading: true }))
-    checkIfUserIsLoggedIn().then((res) => {
-      if (res.error) {
-        console.log(res.error.message);
-      } else {
-        
-       this.setState(() => ({ isUserLoggedIn: true }))
-       
-       const token= localStorage.getItem('ID_TOKEN_KEY')
-       const user = jwt_decode(token)
-       this.setState({ userEmail: user.email })
-      }
-  })
-  .finally(() => {
-    this.setState(() => ({ isLoading: false }))
-  })
-   }else {
-     this.setState(() => ({ isUserLoggedIn: false }))
+  componentDidMount() {
+    if (checkIfUserIsLoggedIn()) {
+      this.setState(() => ({ isLoading: true }))
+      checkIfUserIsLoggedIn()
+        .then(res => {
+          if (res.error) {
+            console.log(res.error.message)
+          } else {
+            const token = localStorage.getItem('ID_TOKEN_KEY')
+            if (token) {
+              this.setState(() => ({ isUserLoggedIn: true }))
+              const user = jwt_decode(token)
+              this.setState({ userEmail: user.email })
+            }
+          }
+        })
+        .finally(() => {
+          this.setState(() => ({ isLoading: false }))
+        })
+    } else {
+      this.setState(() => ({ isUserLoggedIn: false }))
     }
+  }
 
-    }
-  
   onClickLogin = () => {
     this.setState(() => ({ isLoading: true }))
     signIn(this.state.loginEmail, this.state.loginPassword)
@@ -156,13 +155,15 @@ export class App extends React.Component {
         }))
       })
   }
-  toggleList=(e)=>{
+  toggleList = e => {
     e.stopPropagation()
-   this.state.statusContentList? this.setState({contentList:`<h1>lol</h1>`}):this.setState({contentList:''})
-   this.setState({statusContentList:!this.state.statusContentList})
+    this.state.statusContentList
+      ? this.setState({ contentList: `<h1>lol</h1>` })
+      : this.setState({ contentList: '' })
+    this.setState({ statusContentList: !this.state.statusContentList })
   }
 
-  onClickLogOut =  () => {
+  onClickLogOut = () => {
     localStorage.removeItem('REFRESH_TOKEN_KEY')
     localStorage.removeItem('ID_TOKEN_KEY')
     this.setState(() => ({
@@ -170,23 +171,21 @@ export class App extends React.Component {
       userDisplayName: '',
       userEmail: '',
       userAvatar: '',
-      statusContentList:false,
+      statusContentList: false,
     }))
   }
   render() {
     return (
       <div className="App">
         {this.state.isUserLoggedIn ? (
-          
           <BoardCourses
-          src={ this.state.userAvatar}
-          email={this.state.userEmail}
-          nameUser={this.state.userDisplayName||'--'}
-          contentList={this.state.contentList}
-          onClick={this.toggleList}
-          onClickBackToLogin={this. onClickLogOut }
+            src={this.state.userAvatar}
+            email={this.state.userEmail}
+            nameUser={this.state.userDisplayName || '--'}
+            contentList={this.state.contentList}
+            onClick={this.toggleList}
+            onClickBackToLogin={this.onClickLogOut}
           />
-        
         ) : null}
         {this.state.notLoginUserRoute === 'LOGIN' ? (
           <FullPageLayout>
