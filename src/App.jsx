@@ -31,8 +31,7 @@ export class App extends React.Component {
     userDisplayName: '',
     userEmail: '',
     userAvatar: '',
-    contentList: '',
-    statusContentList: false,
+    contentList: false,
     // recover password page
     recoverPasswordEmail: '',
     recoverPasswordSubmitted: false,
@@ -156,17 +155,14 @@ export class App extends React.Component {
       })
   }
   toggleList = e => {
-    e.stopPropagation()
-    this.state.statusContentList
-      ? this.setState({ contentList: `<h1>lol</h1>` })
-      : this.setState({ contentList: '' })
-    this.setState({ statusContentList: !this.state.statusContentList })
+      this.setState({ contentList:!this.state.contentList })
   }
 
   onClickLogOut = () => {
     localStorage.removeItem('REFRESH_TOKEN_KEY')
     localStorage.removeItem('ID_TOKEN_KEY')
     this.setState(() => ({
+      contentList:false,
       isUserLoggedIn: false,
       userDisplayName: '',
       userEmail: '',
