@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { AppBar } from '../../components/AppBar/AppBar'
 import { Avatar } from '../../components/Avatar/Avatar'
 import { ListItem } from '../../components/ListItem/ListItem'
+import { FullPageLayout } from '../../components/FullPageLayout/FullPageLayout'
+
 import classes from './styles.module.css'
 
 export const BoardCourses = props => {
-  const { className, src, email, nameUser,contentList,onClick,onClickBackToLogin, ...otherProps } = props
+  const {children, className, src, email, nameUser,contentList,onClick,onClickBackToLogin, ...otherProps } = props
 
   return (
-    <div
+    <FullPageLayout
       className={`${classes.root}${className ? ` ${className}` : ''}`}
       {...otherProps}>
       <AppBar>
@@ -41,9 +43,11 @@ export const BoardCourses = props => {
           :
           null
       }
+      
       </AppBar>
-     
-    </div>
+     <div
+      className='wrapperCourses'> {children}</div>
+    </FullPageLayout>
   )
 }
 export default BoardCourses

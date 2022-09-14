@@ -6,11 +6,15 @@ import { FullPageLayout } from './components/FullPageLayout/FullPageLayout'
 import { LoginForm } from './components/LoginForm/LoginForm'
 import { CreateAccountForm } from './components/CreateAccountForm/CreateAccountForm'
 import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPasswordForm'
+import { CourseCard } from './components/CourseCard/CourseCard'
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
+import { objectToArray } from './auth/objectToArray'
+import { makeAuthorizedRequest } from './auth/makeAuthorizedRequest'
 import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
 import { BoardCourses } from './components/BoardCourses/BoardCourses'
+
 
 export class App extends React.Component {
   state = {
@@ -49,6 +53,8 @@ export class App extends React.Component {
     validatePasswordDifferent: '',
     validateEmailForgot: false,
     validateInfoForgot: '',
+   // course list page
+   courses: null,
   }
 
   componentDidMount() {
@@ -64,6 +70,7 @@ export class App extends React.Component {
               this.setState(() => ({ isUserLoggedIn: true }))
               const user = jwt_decode(token)
               this.setState({ userEmail: user.email })
+              this.authorizedRequest()
             }
           }
         })
@@ -85,6 +92,7 @@ export class App extends React.Component {
         localStorage.setItem('REFRESH_TOKEN_KEY', newRefreshToken)
         this.setState({ isUserLoggedIn: true })
         this.setState({ userEmail: data.email })
+        this.authorizedRequest()
         if (data.error) {
           this.setState(() => ({
             hasError: true,
@@ -155,20 +163,35 @@ export class App extends React.Component {
       })
   }
   toggleList = e => {
-      this.setState({ contentList:!this.state.contentList })
+    this.setState({ contentList: !this.state.contentList })
   }
 
   onClickLogOut = () => {
     localStorage.removeItem('REFRESH_TOKEN_KEY')
     localStorage.removeItem('ID_TOKEN_KEY')
     this.setState(() => ({
-      contentList:false,
+      contentList: false,
       isUserLoggedIn: false,
       userDisplayName: '',
       userEmail: '',
       userAvatar: '',
       statusContentList: false,
     }))
+  }
+  authorizedRequest =  () => {
+    const token = localStorage.getItem('ID_TOKEN_KEY')
+    if (token) {
+      const url = `https://ajarek--course--react-default-rtdb.europe-west1.firebasedatabase.app/courses.json`
+      makeAuthorizedRequest('GET', url).then(res => {
+        if (res.error) {
+         console.log(res.error.message)
+        } else {
+          this.setState(({ courses:objectToArray(res) }))
+        }
+      })
+    } else {
+      alert('Musisz najpierw zalogować się')
+    }
   }
   render() {
     return (
@@ -181,8 +204,23 @@ export class App extends React.Component {
             contentList={this.state.contentList}
             onClick={this.toggleList}
             onClickBackToLogin={this.onClickLogOut}
-          />
-        ) : null}
+           >  
+           {
+                  this.state.courses && this.state.courses.map((course) => {
+                    return (
+                      <CourseCard
+                        key={course.id}
+                        course={course}
+                      />
+                    )
+                  })
+                }
+           </BoardCourses> 
+         
+          
+        ) 
+       
+        : null}
         {this.state.notLoginUserRoute === 'LOGIN' ? (
           <FullPageLayout>
             <LoginForm
