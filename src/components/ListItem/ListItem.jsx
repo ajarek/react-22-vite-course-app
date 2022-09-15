@@ -11,11 +11,11 @@ export const ListItem = props => {
     <ul
       className={`${classes.root}${className ? ` ${className}` : ''}`}
       {...otherProps}>
-      <li className={classes.list}>
+      <li className={classes.list1}>
         <ProfileIcon />
         <Typography variant={'button'}>Profile</Typography>
       </li>
-      <li className={classes.list}
+      <li className={classes.list2}
       onClick={onClickBackToLogin}
       >
         <LogOutIcon />

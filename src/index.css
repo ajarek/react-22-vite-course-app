@@ -21,7 +21,6 @@ body {
 .wrapperCourses{
   width: 100%;
   height: 90vh;
-  margin-top: 17vh;
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

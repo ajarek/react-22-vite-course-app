@@ -7,6 +7,8 @@ import { LoginForm } from './components/LoginForm/LoginForm'
 import { CreateAccountForm } from './components/CreateAccountForm/CreateAccountForm'
 import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPasswordForm'
 import { CourseCard } from './components/CourseCard/CourseCard'
+import { Typography } from './components/Typography/Typography'
+
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
 import { objectToArray } from './auth/objectToArray'
@@ -15,7 +17,6 @@ import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
 import { BoardCourses } from './components/BoardCourses/BoardCourses'
 import TextField from './components/TextField/TextField'
-
 
 export class App extends React.Component {
   state = {
@@ -54,8 +55,9 @@ export class App extends React.Component {
     validatePasswordDifferent: '',
     validateEmailForgot: false,
     validateInfoForgot: '',
-   // course list page
-   courses: null,
+    // course list page
+    courses: null,
+    searchPhrase: '',
   }
 
   componentDidMount() {
@@ -179,15 +181,16 @@ export class App extends React.Component {
       statusContentList: false,
     }))
   }
-  authorizedRequest =  () => {
+
+  authorizedRequest = () => {
     const token = localStorage.getItem('ID_TOKEN_KEY')
     if (token) {
       const url = `https://ajarek--course--react-default-rtdb.europe-west1.firebasedatabase.app/courses.json`
       makeAuthorizedRequest('GET', url).then(res => {
         if (res.error) {
-         console.log(res.error.message)
+          console.log(res.error.message)
         } else {
-          this.setState(({ courses:objectToArray(res) }))
+          this.setState({ courses: objectToArray(res) })
         }
       })
     } else {
@@ -195,16 +198,18 @@ export class App extends React.Component {
     }
   }
 
-  searachPhrase = () => {
-
-  }
-
   render() {
+    const searchPhraseUpperCase = this.state.searchPhrase.toUpperCase()
+    const filteredCourses = this.state.courses && this.state.courses.filter((course) => {
+      return (
+        course.title.toUpperCase().includes(searchPhraseUpperCase) ||
+        course.category.toUpperCase().includes(searchPhraseUpperCase) ||
+        course.description.toUpperCase().includes(searchPhraseUpperCase)
+      )
+    })
     return (
       <div className="App">
         {this.state.isUserLoggedIn ? (
-          
-              
           <BoardCourses
             src={this.state.userAvatar}
             email={this.state.userEmail}
@@ -212,31 +217,17 @@ export class App extends React.Component {
             contentList={this.state.contentList}
             onClick={this.toggleList}
             onClickBackToLogin={this.onClickLogOut}
-           >
-            
-          <TextField
-          validateInput={true}
-          className={'textField'}
-          placeholder={'search'}
-          type={'search'}
-         
-          />
-           {
-                  this.state.courses && this.state.courses.map((course) => {
-                    return (
-                      
-                      <CourseCard
-                        key={course.id}
-                        course={course}
-                      />                     
-                    )
-                  })
-                }
-           </BoardCourses> 
-        
-        ) 
-       
-        : null}
+            value={this.state.searchPhrase}
+            onChange={e =>
+              this.setState(() => ({ searchPhrase: e.target.value }))
+            }>
+            {filteredCourses&&
+              filteredCourses.map(course => 
+              <CourseCard key={course.id} course={course} />
+              )
+              }
+          </BoardCourses>
+        ) : null}
         {this.state.notLoginUserRoute === 'LOGIN' ? (
           <FullPageLayout>
             <LoginForm
@@ -387,7 +378,6 @@ export class App extends React.Component {
             />
           </FullPageLayout>
         ) : null}
-
 
         {this.state.isLoading ? <FullPageLoader /> : null}
 

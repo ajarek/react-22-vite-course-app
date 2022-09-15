@@ -6,6 +6,7 @@ import classes from './styles.module.css'
 export const CourseCard = (props) => {
   const {
     className,
+    children,
     course={},
     ...otherProps
   } = props
@@ -71,6 +72,7 @@ export const CourseCard = (props) => {
           VIEW COURSE
         </Button>
       </div>
+      {children}
     </div>
   )
 }

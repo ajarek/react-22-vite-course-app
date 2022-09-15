@@ -2,12 +2,15 @@ import React, { Children } from 'react'
 import { AppBar } from '../../components/AppBar/AppBar'
 import { Avatar } from '../../components/Avatar/Avatar'
 import { ListItem } from '../../components/ListItem/ListItem'
+import { Search } from '../../components/Search/Search'
+
 import { FullPageLayout } from '../../components/FullPageLayout/FullPageLayout'
 
 import classes from './styles.module.css'
 
 export const BoardCourses = props => {
-  const {children, className, src, email, nameUser,contentList,onClick,onClickBackToLogin, ...otherProps } = props
+  const {children, className, src, email, nameUser,contentList,onClick,onClickBackToLogin,value,
+    onChange, ...otherProps } = props
 
   return (
     <FullPageLayout
@@ -45,8 +48,14 @@ export const BoardCourses = props => {
       }
       
       </AppBar>
+   <Search
+   value={value}
+   onChange={onChange}
+   />
      <div
-      className='wrapperCourses'> {children}</div>
+      className='wrapperCourses'>
+         {children}
+      </div>
     </FullPageLayout>
   )
 }
