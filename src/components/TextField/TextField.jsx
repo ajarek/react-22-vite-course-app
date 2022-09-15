@@ -7,7 +7,7 @@ export const TextField = props => {
 
   return (
     <div
-    className={`${classes.root}${className ? ` ${className}` : ''}`}
+    className={`${classes.root}${classes.textField ? ` ${classes.textField}` : ''}`}
   >
     <input
       className={`${classes.input}${ !validateInput ? ` ${classes.validateInput}` : ''}`}

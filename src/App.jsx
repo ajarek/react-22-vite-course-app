@@ -14,6 +14,7 @@ import { makeAuthorizedRequest } from './auth/makeAuthorizedRequest'
 import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
 import { BoardCourses } from './components/BoardCourses/BoardCourses'
+import TextField from './components/TextField/TextField'
 
 
 export class App extends React.Component {
@@ -193,10 +194,17 @@ export class App extends React.Component {
       alert('Musisz najpierw zalogować się')
     }
   }
+
+  searachPhrase = () => {
+
+  }
+
   render() {
     return (
       <div className="App">
         {this.state.isUserLoggedIn ? (
+          
+              
           <BoardCourses
             src={this.state.userAvatar}
             email={this.state.userEmail}
@@ -204,20 +212,28 @@ export class App extends React.Component {
             contentList={this.state.contentList}
             onClick={this.toggleList}
             onClickBackToLogin={this.onClickLogOut}
-           >  
+           >
+            
+          <TextField
+          validateInput={true}
+          className={'textField'}
+          placeholder={'search'}
+          type={'search'}
+         
+          />
            {
                   this.state.courses && this.state.courses.map((course) => {
                     return (
+                      
                       <CourseCard
                         key={course.id}
                         course={course}
-                      />
+                      />                     
                     )
                   })
                 }
            </BoardCourses> 
-         
-          
+        
         ) 
        
         : null}
@@ -371,6 +387,8 @@ export class App extends React.Component {
             />
           </FullPageLayout>
         ) : null}
+
+
         {this.state.isLoading ? <FullPageLoader /> : null}
 
         {this.state.isInfoDisplayed ? (
