@@ -5,10 +5,11 @@ import LogOutIcon from './LogOutIcon'
 import ProfileIcon from './ProfileIcon'
 import Typography from '../../components/Typography/Typography'
 export const ListItem = props => {
-  const { className,onClickBackToLogin, ...otherProps } = props
+  const { className,onClickBackToLogin,onClickHideList, ...otherProps } = props
 
   return (
     <ul
+      onClick={onClickHideList}
       className={`${classes.root}${className ? ` ${className}` : ''}`}
       {...otherProps}>
       <li className={classes.list1}>

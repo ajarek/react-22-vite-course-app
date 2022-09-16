@@ -216,6 +216,7 @@ export class App extends React.Component {
             nameUser={this.state.userDisplayName || '--'}
             contentList={this.state.contentList}
             onClick={this.toggleList}
+            onClickHideList={this.toggleList}
             onClickBackToLogin={this.onClickLogOut}
             value={this.state.searchPhrase}
             onChange={e =>

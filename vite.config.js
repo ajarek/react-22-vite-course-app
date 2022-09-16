@@ -4,9 +4,13 @@ import eslint from "@rollup/plugin-eslint"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    open: '/index.html'
+  },
   plugins: [
     {...eslint({include:'src/**/*.+(js/jsx/ts/tsx)'}), enforce:'pre'},
-    react()
+    react(),
+    
   ],
   
 })

@@ -9,7 +9,7 @@ import { FullPageLayout } from '../../components/FullPageLayout/FullPageLayout'
 import classes from './styles.module.css'
 
 export const BoardCourses = props => {
-  const {children, className, src, email, nameUser,contentList,onClick,onClickBackToLogin,value,
+  const {children, className, src, email, nameUser,contentList,onClick,onClickBackToLogin,onClickHideList,value,
     onChange, ...otherProps } = props
 
   return (
@@ -41,6 +41,7 @@ export const BoardCourses = props => {
           >
             <ListItem
             onClickBackToLogin={onClickBackToLogin}
+            onClickHideList={onClickHideList}
             />
           </div>
           :
