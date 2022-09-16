@@ -131,6 +131,9 @@ export class App extends React.Component {
         })
         .finally(() => {
           this.setState(() => ({ isLoading: false }))
+          this.setState({ createAccountEmail: '' })
+        this.setState({ createAccountPassword: '' })
+        this.setState({ createAccountRepeatPassword: '' })
         })
     } else {
       this.setState(() => ({
@@ -162,6 +165,7 @@ export class App extends React.Component {
         this.setState(() => ({
           isLoading: false,
           notLoginUserRoute: 'LOGIN',
+          recoverPasswordEmail:''
         }))
       })
   }
