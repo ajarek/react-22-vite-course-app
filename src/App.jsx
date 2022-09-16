@@ -7,8 +7,6 @@ import { LoginForm } from './components/LoginForm/LoginForm'
 import { CreateAccountForm } from './components/CreateAccountForm/CreateAccountForm'
 import { RecoverPasswordForm } from './components/RecoverPasswordForm/RecoverPasswordForm'
 import { CourseCard } from './components/CourseCard/CourseCard'
-import { Typography } from './components/Typography/Typography'
-
 import { signIn } from './auth/signIn'
 import { signUp } from './auth/signUp'
 import { objectToArray } from './auth/objectToArray'
@@ -16,7 +14,6 @@ import { makeAuthorizedRequest } from './auth/makeAuthorizedRequest'
 import { checkIfUserIsLoggedIn } from './auth/checkIfUserIsLoggedIn'
 import { sendPasswordResetEmail } from './auth/sendPasswordResetEmail'
 import { BoardCourses } from './components/BoardCourses/BoardCourses'
-import TextField from './components/TextField/TextField'
 
 export class App extends React.Component {
   state = {
@@ -169,6 +166,7 @@ export class App extends React.Component {
         }))
       })
   }
+
   toggleList = e => {
     this.setState({ contentList: !this.state.contentList })
   }
@@ -187,6 +185,7 @@ export class App extends React.Component {
   }
 
   authorizedRequest = () => {
+    this.setState(() => ({ isLoading: true }))
     const token = localStorage.getItem('ID_TOKEN_KEY')
     if (token) {
       const url = `https://ajarek--course--react-default-rtdb.europe-west1.firebasedatabase.app/courses.json`
@@ -196,6 +195,12 @@ export class App extends React.Component {
         } else {
           this.setState({ courses: objectToArray(res) })
         }
+      })
+      .finally(() => {
+        this.setState(() => ({
+          isLoading: false,
+          
+        }))
       })
     } else {
       alert('Musisz najpierw zalogować się')
